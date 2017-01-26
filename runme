@@ -1,0 +1,4 @@
+#echo "SUCCESS!"
+#exit 0
+echo "FAIL"
+exit 1
