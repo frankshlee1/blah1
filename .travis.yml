@@ -9,21 +9,12 @@ branches:
 # Install AWS CLI
 before_install:
   - pip install awscli --upgrade --user
-  - export PATH=~/.local/bin:$PATH
   - echo 'export PATH=~/.local/bin:$PATH' >> ~/.bash_profile
 
 # Set the following in travis-ci.org: https://travis-ci.org/YOUR_USER/YOUR_REPO/settings
 #  - AWS_ACCESS_KEY_ID
 #  - AWS_SECRET_ACCESS_KEY
 #  - AWS_DEFAULT_REGION
-#  - AWS_CLOUDFRONT_DIST_ID (example: arn:aws:cloudfront::123456789012:distribution/ABCDEF12345678)
 script:
   - source ~/.bash_profile
-  - rm -rf .git
-  - aws s3 sync --delete . s3://testfrank --exclude ".travis.yml"
-
-# Note: we build against the gh-pages branch, not master, so we will force a build for now by
-# telling it that we're on master, regardless.
-after_success:
-  - npm install -g aws-cloudfront-invalidate
-  - aws-cloudfront-invalidate $AWS_CLOUDFRONT_DIST_ID
+  - aws s3 sync --delete . s3://testfrank --exclude ".*"
